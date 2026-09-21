@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rishav Kumar Mishra | Portfolio</title>
+  <meta name="description"
+    content="Rishav Kumar Mishra — B.Tech CSE (AI) student at IEM Kolkata. Full-stack development, GenAI, Machine Learning &amp; Cybersecurity.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #e9ebef;
+      --bg-alt: #dcdfe5;
+      --text: #1b1d23;
+      --dim: #5c606c;
+      --accent: #a9782e;
+      --accent2: #2c7876;
+      --border: #cbcfd7;
+      --radius: 5px;
+    }
+
+    @media (prefers-color-scheme:dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #13151b;
+        --bg-alt: #1b1e27;
+        --text: #e6e8ee;
+        --dim: #8b8f9c;
+        --accent: #d3a655;
+        --accent2: #4fa19e;
+        --border: #2b2f3a;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #13151b;
+      --bg-alt: #1b1e27;
+      --text: #e6e8ee;
+      --dim: #8b8f9c;
+      --accent: #d3a655;
+      --accent2: #4fa19e;
+      --border: #2b2f3a;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+      line-height: 1.65;
+      transition: background .4s ease, color .4s ease;
+      overflow-x: hidden;
+    }
+
+    body.locked {
+      overflow: hidden;
+      height: 100vh
+    }
+
+    pre {
+      overflow-x: auto;
+      font-family: inherit
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    ::selection {
+      background: var(--accent);
+      color: #0d0e13
+    }
+
+    :focus-visible {
+      outline: 2px dashed var(--accent);
+      outline-offset: 3px
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      * {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important
+      }
+    }
+
+    /* loader */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #0d0e13;
+      color: #e0b568;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.3rem;
+      padding: 1rem;
+      transition: opacity .6s ease, visibility .6s
+    }
+
+    #loader.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none
+    }
+
+    #bootText {
+      white-space: pre-wrap;
+      font-size: .9rem;
+      min-height: 6.5em;
+      text-align: left
+    }
+
+    .cursor {
+      display: inline-block;
+      animation: blink 1s steps(1) infinite
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0
+      }
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .9rem
+    }
+
+    .progress-bar {
+      width: min(60vw, 220px);
+      height: 12px;
+      border: 1px solid #e0b568
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: #e0b568;
+      transition: width 1.6s ease
+    }
+
+    /* nav */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      transition: background .4s, border-color .4s
+    }
+
+    .nav-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: .9rem 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .7rem
+    }
+
+    .brand {
+      font-weight: 800;
+      color: var(--accent)
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      font-size: .88rem
+    }
+
+    .nav-links a:hover {
+      color: var(--accent)
+    }
+
+    #themeBtn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      padding: .35rem .7rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: .82rem;
+      transition: .25s
+    }
+
+    #themeBtn:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    /* layout */
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 2.2rem 1.2rem 4rem
+    }
+
+    .win {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 2.2rem;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease, background-color .4s, border-color .4s
+    }
+
+    .win.in {
+      opacity: 1;
+      transform: none
+    }
+
+    .winbar {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem .9rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%
+    }
+
+    .d1 {
+      background: #e0605a
+    }
+
+    .d2 {
+      background: #e0b95a
+    }
+
+    .d3 {
+      background: #5ec26a
+    }
+
+    .wintitle {
+      margin-left: .4rem;
+      color: var(--dim);
+      font-size: .82rem
+    }
+
+    .wincontent {
+      padding: 1.7rem 1.5rem
+    }
+
+    /* hero */
+    .prompt {
+      color: var(--accent2);
+      font-size: .88rem;
+      margin-bottom: .4rem
+    }
+
+    .hero h1 {
+      font-size: clamp(1.7rem, 5vw, 2.7rem);
+      font-weight: 800;
+      margin-bottom: 1.1rem;
+      letter-spacing: -.02em
+    }
+
+    .tagline {
+      color: var(--dim);
+      max-width: 58ch;
+      margin-bottom: 1.7rem
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap
+    }
+
+    .btn {
+      padding: .65rem 1.1rem;
+      border-radius: var(--radius);
+      font-size: .88rem;
+      border: 1px solid var(--accent);
+      transition: .25s;
+      display: inline-block
+    }
+
+    .btn-solid {
+      background: var(--accent);
+      color: #0d0e13
+    }
+
+    .btn-solid:hover {
+      opacity: .82
+    }
+
+    .btn-outline {
+      color: var(--accent)
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #0d0e13
+    }
+
+    /* about */
+    .about-grid {
+      display: flex;
+      gap: 2.2rem;
+      flex-wrap: wrap;
+      align-items: flex-start
+    }
+
+    .about-text {
+      flex: 1 1 320px
+    }
+
+    .about-text p {
+      max-width: 62ch
+    }
+
+    .photo-frame {
+      flex: 0 0 150px
+    }
+
+    .photo-placeholder {
+      width: 150px;
+      height: 150px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .3rem;
+      color: var(--dim);
+      font-size: .72rem;
+      text-align: center
+    }
+
+    .photo {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid var(--border)
+    }
+
+    .edu-block {
+      margin-top: 1.5rem;
+      font-size: .88rem;
+      color: var(--dim)
+    }
+
+    .edu-block b {
+      color: var(--text)
+    }
+
+    .rule {
+      color: var(--dim);
+      opacity: .45
+    }
+
+    /* skills */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .7rem;
+      margin-top: .9rem
+    }
+
+    .tag {
+      border: 1px solid var(--border);
+      padding: .5rem .85rem;
+      border-radius: var(--radius);
+      font-size: .82rem;
+      transition: border-color .25s, color .25s
+    }
+
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    /* projects */
+    .empty-state {
+      color: var(--dim);
+      font-size: .85rem;
+      margin: .6rem 0 1rem
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.2rem
+    }
+
+    .project-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden
+    }
+
+    .project-img img {
+      width: 100%;
+      display: block
+    }
+
+    .project-body {
+      padding: 1rem
+    }
+
+    .project-body h3 {
+      margin-bottom: .4rem
+    }
+
+    .tags span {
+      display: inline-block;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: .72rem;
+      padding: .15rem .5rem;
+      margin: .15rem .3rem .15rem 0;
+      color: var(--dim)
+    }
+
+    .project-links a {
+      color: var(--accent);
+      margin-right: 1rem;
+      font-size: .82rem
+    }
+
+    /* connect */
+    .connect-list {
+      display: flex;
+      flex-direction: column;
+      gap: .7rem;
+      margin-top: .9rem
+    }
+
+    .connect-item {
+      border: 1px solid var(--border);
+      padding: .75rem 1.05rem;
+      border-radius: var(--radius);
+      display: flex;
+      justify-content: space-between;
+      transition: border-color .25s, color .25s, transform .25s
+    }
+
+    .connect-item:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateX(4px)
+    }
+
+    footer {
+      text-align: center;
+      color: var(--dim);
+      font-size: .82rem;
+      padding: 2.2rem 1rem 3rem
+    }
+
+    footer p+p {
+      margin-top: .3rem
+    }
+
+    @media(max-width:620px) {
+      .about-grid {
+        flex-direction: column
+      }
+
+      .photo-frame {
+        align-self: center
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--
+====================================================================
+CUSTOMIZATION GUIDE — read this before you deploy
+====================================================================
+1) PHOTO
+   Find <div class="photo-placeholder"> in the About section below
+   and replace it with:
+     <img src="data:image/jpeg;base64,PASTE_YOUR_BASE64_STRING" alt="Rishav Kumar Mishra" class="photo">
+   Convert a photo to Base64 at a site like base64.guru/converter/encode/image,
+   then paste the long string it gives you after "base64,".
+   This page is fully self-contained, so normal image links (Imgur, Google
+   Drive, etc.) won't load here — Base64 embeds the image directly in the
+   file. If you later host this file yourself (GitHub Pages, Vercel,
+   Netlify...), regular <img src="https://..."> links work fine there too.
+
+2) PROJECTS
+   Find <div class="projects-grid" id="projectsGrid"> in the Projects
+   section. Paste the block below inside it once per project (and delete
+   the "No projects yet" line above it once you've added your first one):
+
+     <div class="project-card reveal">
+       <div class="project-img"><img src="data:image/jpeg;base64,PASTE_BASE64_HERE" alt="Project name"></div>
+       <div class="project-body">
+         <h3>Project Name</h3>
+         <p>One or two lines on what it does and why you built it.</p>
+         <div class="tags"><span>Tech</span><span>Stack</span></div>
+         <div class="project-links">
+           <a href="LIVE_URL" target="_blank" rel="noopener">Live ↗</a>
+           <a href="REPO_URL" target="_blank" rel="noopener">Code ↗</a>
+         </div>
+       </div>
+     </div>
+
+3) SOCIAL LINKS
+   In the Connect section, replace each href="#" with your real profile
+   URL, e.g. href="https://github.com/your-username"
+====================================================================
+-->
+
+  <noscript>
+    <style>
+      #loader {
+        display: none !important
+      }
+
+      body {
+        overflow: visible !important;
+        height: auto !important
+      }
+    </style>
+  </noscript>
+
+  <div id="loader" aria-hidden="true">
+    <pre id="bootText"></pre>
+    <div class="progress-wrap"><span>[</span>
+      <div class="progress-bar">
+        <div class="progress-fill" id="fill"></div>
+      </div><span>]</span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="nav-inner">
+      <span class="brand">rishav@iem:~$</span>
+      <nav class="nav-links">
+        <a href="#about">about</a>
+        <a href="#skills">skills</a>
+        <a href="#projects">projects</a>
+        <a href="#connect">connect</a>
+      </nav>
+      <button id="themeBtn" aria-label="Toggle dark mode"></button>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="win reveal">
+      <div class="winbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span
+          class="wintitle">guest@rishav-portfolio:~</span></div>
+      <div class="wincontent hero">
+        <p class="prompt">$ whoami</p>
+        <h1>Rishav Kumar Mishra</h1>
+        <p class="prompt">$ cat role.txt</p>
+        <p class="tagline">B.Tech CSE (AI) student at IEM Kolkata — building at the intersection of full-stack
+          engineering, generative AI, and cybersecurity.</p>
+        <div class="cta-row">
+          <a href="#skills" class="btn btn-solid">./skills</a>
+          <a href="#connect" class="btn btn-outline">./connect</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="win reveal">
+      <div class="winbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span
+          class="wintitle">about.md</span></div>
+      <div class="wincontent about-grid">
+        <div class="about-text">
+          <p>I'm a Computer Science (AI) undergrad at the Institute of Engineering and Management, Kolkata, driven by
+            one idea: build software that's both intelligent and secure. My work spans full-stack development and
+            generative AI, with a growing focus on machine learning, databases and cybersecurity — I'm pursuing the
+            latter as a minor alongside my main degree. Outside of building, I'm usually deep in a DSA problem or a
+            competitive-programming contest, chasing a cleaner solution.</p>
+          <div class="edu-block">
+            <p class="rule">──────────────────────────</p>
+            <p><b>Institute of Engineering and Management, Kolkata (IEM)</b></p>
+            <p>B.Tech, Computer Science &amp; Engineering (AI)</p>
+            <p>2024 — 2028</p>
+            <p class="rule">──────────────────────────</p>
+          </div>
+        </div>
+        <div class="photo-frame">
+          <div class="photo-placeholder"><span>404</span><span>photo_not_found.jpg</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="win reveal">
+      <div class="winbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span
+          class="wintitle">skills.sh</span></div>
+      <div class="wincontent">
+        <p class="prompt">$ cat skills.sh</p>
+        <div class="skills-grid">
+          <span class="tag">--fullstack-development</span>
+          <span class="tag">--genai</span>
+          <span class="tag">--machine-learning</span>
+          <span class="tag">--cybersecurity (minor)</span>
+          <span class="tag">--dbms</span>
+          <span class="tag">--data-analytics</span>
+          <span class="tag">--dsa</span>
+          <span class="tag">--competitive-coding</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="win reveal">
+      <div class="winbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span
+          class="wintitle">projects/</span></div>
+      <div class="wincontent">
+        <p class="prompt">$ ls ./projects</p>
+        <p class="prompt" style="opacity:.6">total 0</p>
+        <p class="empty-state">No projects yet — new builds loading soon. Check back for updates!</p>
+        <div class="projects-grid" id="projectsGrid"></div>
+      </div>
+    </section>
+
+    <section id="connect" class="win reveal">
+      <div class="winbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span
+          class="wintitle">connect.sh</span></div>
+      <div class="wincontent">
+        <p class="prompt">$ cat connect.sh</p>
+        <div class="connect-list">
+          <a href="https://github.com/RishavKumarMishra2006#" target="_blank" rel="noopener"
+            class="connect-item"><span>GitHub</span><span>↗</span></a>
+          <a href="https://www.linkedin.com/in/rishavv-mishra/" target="_blank" rel="noopener"
+            class="connect-item"><span>LinkedIn</span><span>↗</span></a>
+          <a href="https://leetcode.com/u/Rizzav/" target="_blank" rel="noopener" class="connect-item"><span>LeetCode</span><span>↗</span></a>
+          <a href="https://x.com/Rishavkuma38481" target="_blank" rel="noopener" class="connect-item"><span>Twitter / X</span><span>↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>$ echo "thanks for stopping by"</p>
+    <p>© 2026 Rishav Kumar Mishra</p>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById('themeBtn');
+      function label() {
+        var cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        btn.textContent = cur === 'dark' ? '[x] dark_mode' : '[ ] dark_mode';
+      }
+      try { var saved = localStorage.getItem('theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) { }
+      label();
+      btn.addEventListener('click', function () {
+        var cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        var next = cur === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('theme', next); } catch (e) { }
+        label();
+      });
+
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: .15 });
+      document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+      function endLoad() {
+        var l = document.getElementById('loader');
+        if (l) l.classList.add('hide');
+        document.body.classList.remove('locked');
+      }
+      document.body.classList.add('locked');
+      setTimeout(endLoad, 5500); /* safety fallback no matter what */
+
+      var lines = ["$ whoami", "> Rishav Kumar Mishra", "$ ./boot_portfolio.sh", "> loading modules...", "> done."];
+      var el = document.getElementById('bootText');
+      var li = 0, ci = 0;
+      function type() {
+        if (!el) return endLoad();
+        if (li < lines.length) {
+          if (ci < lines[li].length) { el.textContent += lines[li][ci++]; setTimeout(type, 20); }
+          else { el.textContent += '\n'; li++; ci = 0; setTimeout(type, 170); }
+        } else {
+          var f = document.getElementById('fill');
+          if (f) f.style.width = '100%';
+          setTimeout(endLoad, 1700);
+        }
+      }
+      setTimeout(type, 300);
+    })();
+  </script>
+</body>
+
+</html>
